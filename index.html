@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Adi Mukti 2026</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            ink: '#111111',
+            'blue-rule': '#BFDBFE',
+            'blue-accent': '#2563EB',
+            'blue-light': '#DBEAFE',
+            'blue-mid': '#93C5FD',
+            paper: '#FAFBFF',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    /* Hairline blue rules */
+    .rule { border-color: #BFDBFE; }
+
+    /* Section label eyebrow */
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #2563EB;
+    }
+
+    /* Hero name reveal clip */
+    .name-clip { overflow: hidden; }
+
+    /* Skill tag */
+    .skill-tag {
+      border: 1px solid #BFDBFE;
+      border-radius: 2px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: #2563EB;
+      background: #EFF6FF;
+      padding: 3px 10px;
+      display: inline-block;
+    }
+
+    /* Work card */
+    .work-card {
+      border: 1px solid #E0EDFF;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .work-card:hover {
+      border-color: #93C5FD;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.07);
+    }
+
+    /* Nav link */
+    .nav-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: #2563EB; }
+
+    /* Placeholder image */
+    .img-placeholder {
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-placeholder svg { opacity: 0.35; }
+
+    /* Contact icon */
+    .contact-item svg { flex-shrink: 0; }
+
+    /* GSAP initial states */
+    .fade-up { opacity: 0; transform: translateY(28px); }
+    .fade-in { opacity: 0; }
+
+    /* Thin blue vertical accent */
+    .v-accent {
+      width: 2px;
+      background: #BFDBFE;
+      border-radius: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up, .fade-in { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ─── NAV ────────────────────────────────────────────────── -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-blue-rule" style="backdrop-filter:blur(8px);">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <span class="font-display font-semibold text-sm tracking-wide text-ink">Adi Mukti</span>
+      <div class="hidden sm:flex items-center gap-8">
+        <a href="#about" class="nav-link">Tentang</a>
+        <a href="#experience" class="nav-link">Pengalaman</a>
+        <a href="#skills" class="nav-link">Keahlian</a>
+        <a href="#portfolio" class="nav-link">Portofolio</a>
+        <a href="#contact" class="nav-link">Kontak</a>
+      </div>
+      <a href="#contact" class="text-xs font-semibold tracking-widest uppercase text-blue-accent border border-blue-accent px-4 py-1.5 hover:bg-blue-light transition-colors duration-200">
+        Hubungi
+      </a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ──────────────────────────────────────────────── -->
+  <header class="pt-14 min-h-screen flex flex-col justify-center relative overflow-hidden">
+    <!-- Background subtle tint -->
+    <div class="absolute inset-0 bg-gradient-to-br from-white via-white to-blue-light opacity-60 pointer-events-none"></div>
+
+    <!-- Vertical rule decoration -->
+    <div class="absolute right-16 top-0 bottom-0 v-accent opacity-40 hidden lg:block"></div>
+
+    <div class="max-w-5xl mx-auto px-6 py-24 relative z-10 w-full">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: text -->
+        <div>
+          <p id="hero-eyebrow" class="eyebrow mb-6 fade-in">Portfolio — 2026</p>
+
+          <div class="name-clip mb-2">
+            <h1 id="hero-name" class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-ink" style="transform:translateY(100%);">
+              Adi<br/><em class="text-blue-accent not-italic">Mukti.</em>
+            </h1>
+          </div>
+
+          <div class="name-clip mb-8">
+            <p id="hero-sub" class="font-display text-xl font-light text-gray-500 italic" style="transform:translateY(100%);">
+              Journalist &amp; Creative
+            </p>
+          </div>
+
+          <p id="hero-desc" class="text-gray-600 text-base leading-relaxed max-w-md mb-10 fade-up">
+            Freshgraduate yang tertarik di bidang jurnalisme dan kreatif. Keahlian utama dalam news writing, creative writing, dan content production — didukung fotografi, video editing, voice over, dan desain grafis.
+          </p>
+
+          <div id="hero-cta" class="flex gap-4 fade-up">
+            <a href="#portfolio" class="bg-blue-accent text-white text-xs font-semibold tracking-widest uppercase px-6 py-3 hover:bg-blue-700 transition-colors duration-200">
+              Lihat Karya
+            </a>
+            <a href="#contact" class="border border-blue-rule text-ink text-xs font-semibold tracking-widest uppercase px-6 py-3 hover:border-blue-mid transition-colors duration-200">
+              Kontak Saya
+            </a>
+          </div>
+
+          <!-- Thin blue rule below CTA -->
+          <div class="mt-12 h-px bg-gradient-to-r from-blue-rule via-blue-mid to-transparent w-48" id="hero-rule"></div>
+        </div>
+
+        <!-- Right: portrait placeholder -->
+        <div id="hero-photo" class="fade-in flex justify-center lg:justify-end">
+          <div class="relative">
+            <div class="img-placeholder w-72 h-80 sm:w-80 sm:h-96">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.2">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <!-- Blue accent corner -->
+            <div class="absolute -bottom-3 -left-3 w-16 h-16 border-l-2 border-b-2 border-blue-accent"></div>
+            <div class="absolute -top-3 -right-3 w-16 h-16 border-r-2 border-t-2 border-blue-mid"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scroll hint -->
+      <div id="scroll-hint" class="absolute bottom-8 left-6 flex items-center gap-3 opacity-50">
+        <div class="w-px h-10 bg-blue-rule animate-pulse"></div>
+        <span class="text-xs tracking-widest uppercase text-gray-400">Scroll</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─── ABOUT ─────────────────────────────────────────────── -->
+  <section id="about" class="py-24 bg-paper border-t border-blue-rule">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="grid lg:grid-cols-3 gap-12">
+        <div>
+          <p class="eyebrow mb-3 fade-up">Tentang Saya</p>
+          <h2 class="font-display text-3xl font-semibold text-ink leading-snug fade-up">
+            Cerita di Balik<br/><em>Setiap Kata</em>
+          </h2>
+        </div>
+        <div class="lg:col-span-2 fade-up">
+          <p class="text-gray-600 leading-relaxed text-base mb-6">
+            Saya adalah freshgraduate yang memiliki ketertarikan mendalam di bidang jurnalisme dan industri kreatif. Dengan pengalaman nyata di lapangan maupun di balik layar, saya percaya bahwa setiap cerita layak untuk diceritakan dengan baik.
+          </p>
+          <p class="text-gray-600 leading-relaxed text-base mb-8">
+            Kemampuan utama saya mencakup <strong class="text-ink font-semibold">news writing</strong> dan <strong class="text-ink font-semibold">creative writing</strong>, serta <strong class="text-ink font-semibold">content production</strong> yang menyeluruh — dari ideasi hingga distribusi. Didukung oleh skill tambahan seperti fotografi, video editing, voice over, dan desain grafis.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Jurnalisme</span>
+            <span class="skill-tag">News Writing</span>
+            <span class="skill-tag">Creative Writing</span>
+            <span class="skill-tag">Content Production</span>
+            <span class="skill-tag">Photography</span>
+            <span class="skill-tag">Video Editing</span>
+            <span class="skill-tag">Voice Over</span>
+            <span class="skill-tag">Desain Grafis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EXPERIENCE ───────────────────────────────────────── -->
+  <section id="experience" class="py-24 bg-white border-t border-blue-rule">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="mb-14">
+        <p class="eyebrow mb-2 fade-up">Pengalaman</p>
+        <h2 class="font-display text-3xl font-semibold text-ink fade-up">Perjalanan Karir</h2>
+      </div>
+
+      <div class="space-y-12">
+
+        <!-- Detikcom -->
+        <div class="grid lg:grid-cols-3 gap-8 fade-up">
+          <div class="lg:col-span-1">
+            <!-- Logo placeholder -->
+            <div class="img-placeholder w-full h-32 mb-4 rounded-sm">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                <path d="M7 8h10M7 12h6M7 16h8"/>
+              </svg>
+            </div>
+            <p class="eyebrow mb-1">2023 — 2024</p>
+            <h3 class="font-display text-lg font-semibold text-ink">Digital Journalist</h3>
+            <p class="text-blue-accent text-sm font-medium mt-0.5">Detikcom</p>
+          </div>
+          <div class="lg:col-span-2">
+            <p class="text-gray-600 leading-relaxed mb-4">
+              Selama magang di Detikcom, berhasil menulis lebih dari <strong class="text-ink">130 artikel berita dan feature</strong>, melakukan peliputan lapangan sebagai reporter, serta wawancara mendalam dengan narasumber. Berkontribusi aktif dalam pengembangan konten media sosial redaksi.
+            </p>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Pengalaman ini mengasah kemampuan dalam mengumpulkan dan mengolah informasi secara cepat, beradaptasi dengan lingkungan kerja yang dinamis, serta meningkatkan keterampilan komunikasi persuasif.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="skill-tag">Peliputan Lapangan</span>
+              <span class="skill-tag">Feature Writing</span>
+              <span class="skill-tag">Wawancara</span>
+              <span class="skill-tag">Sosial Media</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="h-px bg-blue-rule"></div>
+
+        <!-- Social Media Specialist -->
+        <div class="grid lg:grid-cols-3 gap-8 fade-up">
+          <div class="lg:col-span-1">
+            <div class="img-placeholder w-full h-32 mb-4 rounded-sm">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <path d="M17 2H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2z"/>
+                <circle cx="12" cy="14" r="3"/>
+                <path d="M12 8h.01"/>
+              </svg>
+            </div>
+            <p class="eyebrow mb-1">2024</p>
+            <h3 class="font-display text-lg font-semibold text-ink">Social Media Specialist</h3>
+            <p class="text-blue-accent text-sm font-medium mt-0.5">Media &amp; Branding Agency</p>
+          </div>
+          <div class="lg:col-span-2">
+            <p class="text-gray-600 leading-relaxed mb-4">
+              Bertanggung jawab dalam menyusun <strong class="text-ink">content planning</strong>, mengedit video, dan melakukan photoshoot untuk memenuhi kebutuhan konten digital perusahaan serta mendukung penguatan branding di media sosial.
+            </p>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Mengembangkan kemampuan dalam mengelola konten kreatif, berkoordinasi dengan berbagai pihak, serta meningkatkan keterampilan negosiasi, kerja sama tim, dan manajemen waktu dalam lingkungan yang dinamis.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="skill-tag">Content Planning</span>
+              <span class="skill-tag">Video Editing</span>
+              <span class="skill-tag">Photoshoot</span>
+              <span class="skill-tag">Brand Strategy</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CORE SKILLS ───────────────────────────────────────── -->
+  <section id="skills" class="py-24 bg-paper border-t border-blue-rule">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="mb-14">
+        <p class="eyebrow mb-2 fade-up">Keahlian</p>
+        <h2 class="font-display text-3xl font-semibold text-ink fade-up">Core Skills</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-8">
+
+        <!-- Skill 1 -->
+        <div class="work-card bg-white p-8 fade-up">
+          <div class="flex items-start gap-4 mb-5">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink mb-1">News &amp; Creative Writing</h3>
+              <p class="text-blue-accent text-xs font-medium tracking-wide uppercase">Core Skill</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Penulis serba bisa dengan keahlian di bidang penulisan iklan, pembuatan konten SEO, dan peliputan mendalam. Mahir menyesuaikan nada dan gaya penulisan untuk berbagai audiens — dari komunikasi bisnis formal hingga penceritaan kreatif yang menarik.
+          </p>
+        </div>
+
+        <!-- Skill 2 -->
+        <div class="work-card bg-white p-8 fade-up">
+          <div class="flex items-start gap-4 mb-5">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <path d="M8 21h8M12 17v4"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink mb-1">Social Media Production</h3>
+              <p class="text-blue-accent text-xs font-medium tracking-wide uppercase">Core Skill</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Mahir dalam mengelola produksi konten media sosial secara menyeluruh — dari perencanaan, pembuatan konten, pengeditan video, hingga pengisian suara. Mengubah ide menjadi konten digital yang memperkuat kehadiran merek dan meningkatkan keterlibatan audiens.
+          </p>
+        </div>
+
+        <!-- Skill 3 -->
+        <div class="work-card bg-white p-8 fade-up">
+          <div class="flex items-start gap-4 mb-5">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M3 9l3 3-3 3M21 9l-3 3 3 3M9 3l3 3 3-3M9 21l3-3 3 3"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink mb-1">Photography &amp; Video</h3>
+              <p class="text-blue-accent text-xs font-medium tracking-wide uppercase">Supporting Skill</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Pengalaman dalam jurnalisme fotografi lapangan dan video editing untuk kebutuhan konten digital. Mampu menangkap momen jurnalistik yang kuat dan mengolahnya menjadi visual yang informatif dan bercerita.
+          </p>
+        </div>
+
+        <!-- Skill 4 -->
+        <div class="work-card bg-white p-8 fade-up">
+          <div class="flex items-start gap-4 mb-5">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink mb-1">Voice Over &amp; Graphic Design</h3>
+              <p class="text-blue-accent text-xs font-medium tracking-wide uppercase">Supporting Skill</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            Kemampuan voice over untuk konten audio-visual dan desain grafis untuk materi promosi dan publikasi. Terbiasa mengerjakan poster, materi webinar, dan konten visual lainnya yang komunikatif dan estetis.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PORTFOLIO ─────────────────────────────────────────── -->
+  <section id="portfolio" class="py-24 bg-white border-t border-blue-rule">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="mb-14">
+        <p class="eyebrow mb-2 fade-up">Portofolio</p>
+        <h2 class="font-display text-3xl font-semibold text-ink fade-up">My Work &amp; Projects</h2>
+      </div>
+
+      <!-- Category: Artikel & Reportase -->
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 fade-up">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Artikel &amp; Reportase</p>
+          <div class="flex-1 h-px bg-blue-rule"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-44">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h5M8 16h3"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Reportase</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Pembersihan Lapak Pedagang</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Liputan langsung dari lapangan mengenai pembersihan lapak pedagang.</p>
+            </div>
+          </div>
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-44">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Indepth</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Kekerasan Berbasis Gender Online</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Laporan mendalam tentang fenomena kekerasan berbasis gender di ruang digital.</p>
+            </div>
+          </div>
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-44">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Feature</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Creative Studio</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Artikel feature tentang dunia kreatif studio dan para pelakunya.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Category: Video & Liputan -->
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 fade-up">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Video &amp; Liputan</p>
+          <div class="flex-1 h-px bg-blue-rule"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-52 relative">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-14 h-14 bg-blue-accent bg-opacity-10 rounded-full flex items-center justify-center border border-blue-rule">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#2563EB">
+                    <polygon points="5,3 19,12 5,21"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Video / Viral</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Penjelasan Warga soal Tuduhan Pungli di Jembatan Cirahong</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Liputan viral Detik Jabar — wawancara warga seputar kasus pungli yang ramai diperbincangkan.</p>
+            </div>
+          </div>
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-52 relative">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-14 h-14 bg-blue-accent bg-opacity-10 rounded-full flex items-center justify-center border border-blue-rule">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#2563EB">
+                    <polygon points="5,3 19,12 5,21"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Content Creation</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Day In My Life</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Produksi video lifestyle kreatif — editing, voice over, dan storytelling visual.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Category: Photography & Design -->
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 fade-up">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Photography &amp; Desain</p>
+          <div class="flex-1 h-px bg-blue-rule"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-56">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Fotografi Jurnalistik</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Journalism Photography</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Dokumentasi visual dari liputan jurnalistik di lapangan.</p>
+            </div>
+          </div>
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-56">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+                <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Voice Over</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Voice Over Projects</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">Rekaman voice over untuk berbagai kebutuhan konten audio-visual.</p>
+            </div>
+          </div>
+
+          <div class="work-card fade-up overflow-hidden">
+            <div class="img-placeholder h-56">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.3">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M9 9l6 6M15 9l-6 6"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <span class="skill-tag mb-3 block w-fit">Desain Grafis</span>
+              <h4 class="font-display text-base font-semibold text-ink leading-snug">Poster Webinar COC #1</h4>
+              <p class="text-gray-500 text-xs mt-2 leading-relaxed">"Tutorial Masuk Dunia Kerja Pasca Kampus" bersama Prima Aris Pradana, S.T. — Jumat, 18 Oktober 2024.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ───────────────────────────────────────────── -->
+  <section id="contact" class="py-24 bg-paper border-t border-blue-rule">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <div class="fade-up">
+          <p class="eyebrow mb-2">Kontak</p>
+          <h2 class="font-display text-3xl font-semibold text-ink mb-6">
+            Mari Berkolaborasi<em class="text-blue-accent">.</em>
+          </h2>
+          <p class="text-gray-600 leading-relaxed mb-8 max-w-md">
+            Terbuka untuk peluang kerja sama, proyek jurnalistik, atau sekadar diskusi seputar dunia media dan kreatif.
+          </p>
+
+          <!-- Blue accent quote -->
+          <div class="border-l-2 border-blue-accent pl-5 py-1">
+            <p class="font-display italic text-gray-500 text-base">
+              "Setiap cerita layak untuk diceritakan dengan baik."
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-5 fade-up">
+
+          <!-- Gmail -->
+          <a href="mailto:ukiykiuy@gmail.com" class="contact-item flex items-center gap-4 p-5 work-card bg-white group">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0 group-hover:bg-blue-accent transition-colors duration-200">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" class="group-hover:stroke-white transition-colors duration-200">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-widest mb-0.5">Email</p>
+              <p class="text-sm font-medium text-ink">ukiykiuy@gmail.com</p>
+            </div>
+            <svg class="ml-auto w-4 h-4 text-blue-rule group-hover:text-blue-accent transition-colors duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://instagram.com/justukiyoo" target="_blank" class="contact-item flex items-center gap-4 p-5 work-card bg-white group">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0 group-hover:bg-blue-accent transition-colors duration-200">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" class="group-hover:stroke-white transition-colors duration-200">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="#2563EB" stroke="none" class="group-hover:fill-white"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-widest mb-0.5">Instagram</p>
+              <p class="text-sm font-medium text-ink">@justukiyoo</p>
+            </div>
+            <svg class="ml-auto w-4 h-4 text-blue-rule group-hover:text-blue-accent transition-colors duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/6282115664723" target="_blank" class="contact-item flex items-center gap-4 p-5 work-card bg-white group">
+            <div class="w-10 h-10 bg-blue-light flex items-center justify-center flex-shrink-0 group-hover:bg-blue-accent transition-colors duration-200">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" class="group-hover:stroke-white transition-colors duration-200">
+                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-widest mb-0.5">WhatsApp</p>
+              <p class="text-sm font-medium text-ink">082115664723</p>
+            </div>
+            <svg class="ml-auto w-4 h-4 text-blue-rule group-hover:text-blue-accent transition-colors duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────── -->
+  <footer class="bg-white border-t border-blue-rule">
+    <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <span class="font-display font-semibold text-sm text-ink">Adi Mukti</span>
+      <p class="text-xs text-gray-400 tracking-wide">© 2026 — Journalist &amp; Creative Professional</p>
+      <div class="flex gap-6">
+        <a href="#about" class="nav-link text-xs">Tentang</a>
+        <a href="#portfolio" class="nav-link text-xs">Portofolio</a>
+        <a href="#contact" class="nav-link text-xs">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── GSAP ANIMATIONS ───────────────────────────────────── -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── Hero entrance ──────────────────────────────────────
+    const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    heroTl
+      .to("#hero-eyebrow", { opacity: 1, duration: 0.6, delay: 0.2 })
+      .to("#hero-name", { y: 0, duration: 0.9 }, "-=0.2")
+      .to("#hero-sub", { y: 0, duration: 0.7 }, "-=0.5")
+      .to("#hero-desc", { opacity: 1, y: 0, duration: 0.7 }, "-=0.4")
+      .to("#hero-cta", { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
+      .to("#hero-rule", { opacity: 1, duration: 0.5 }, "-=0.3")
+      .to("#hero-photo", { opacity: 1, duration: 0.8 }, "-=0.6")
+      .to("#scroll-hint", { opacity: 0.5, duration: 0.5 }, "-=0.2");
+
+    // ── Navbar shadow on scroll ─────────────────────────────
+    ScrollTrigger.create({
+      start: "top -80",
+      onUpdate: (self) => {
+        const nav = document.getElementById("navbar");
+        if (self.progress > 0) {
+          nav.style.boxShadow = "0 1px 16px rgba(37,99,235,0.06)";
+        } else {
+          nav.style.boxShadow = "none";
+        }
+      }
+    });
+
+    // ── Scroll-triggered fade-ups ───────────────────────────
+    gsap.utils.toArray(".fade-up").forEach((el) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          once: true,
+        }
+      });
+    });
+
+    // ── Scroll-triggered fade-ins ───────────────────────────
+    gsap.utils.toArray(".fade-in").forEach((el) => {
+      if (el.id !== "hero-eyebrow" && el.id !== "hero-photo") {
+        gsap.to(el, {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 88%",
+            once: true,
+          }
+        });
+      }
+    });
+
+    // ── Work cards stagger ──────────────────────────────────
+    gsap.utils.toArray(".work-card").forEach((card, i) => {
+      gsap.from(card, {
+        opacity: 0,
+        y: 20,
+        duration: 0.55,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 90%",
+          once: true,
+        },
+        delay: (i % 3) * 0.08,
+      });
+    });
+  </script>
+
+</body>
+</html>
